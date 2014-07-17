@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+'use strict';
+
+// meanp CLI.
+var program = require('commander'),
+    _ = require('lodash');
+
+// set program version
+var version = require('../package').version;
+program.version(version, '-v, --version');
+
+program
+    .command('module <name> [options]', 'Create a meanp module in the modules directory')
+    .command('list', 'List all installed modules')
+    .command('status', 'Overall system status')
+    .parse(process.argv);
+
+// print help with no args
+if (program.args.length < 1) {
+    program.help();
+}
+
+// if there is a command, make sure it's valid
+var commands = program.commands.map(function(command) {
+    return command._name;
+});
+if (!_.contains(commands, program.args[0])) {
+    console.log('meanp: `' + program.rawArgs[2] + '` is not a meanp command. See `meanp --help`.');
+    console.log();
+    process.exit(1);
+}
