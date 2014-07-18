@@ -5,7 +5,7 @@ A simple command line tool for creating front-end modules on the meanp-seed proj
  
 ### Setup:
 ```
-npm install -g meanp
+npm install -g generator-meanp
 ```
 
 ### Commands:
