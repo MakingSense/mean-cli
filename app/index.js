@@ -4,9 +4,11 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
+var clone = require("nodegit").Repo.clone;
+var sys = require('sys')
+var exec = require('child_process').exec;
 
-
-var MeanpModulesGenerator = yeoman.generators.Base.extend({
+var MeanpGenerator = yeoman.generators.Base.extend({
   init: function () {
     this.pkg = require('../package.json');
 
@@ -21,39 +23,27 @@ var MeanpModulesGenerator = yeoman.generators.Base.extend({
     var done = this.async();
 
     // Have Yeoman greet the user.
-    this.log(yosay('Welcome to the meanp module!'));
-
+    this.log(yosay('Welcome to the meanp app generator!'));
     var prompts = [{
-      name: 'moduleName',
-      message: 'How would you like to name your module?',
-      default: true
-    },
-    {
-      type: 'confirm'
-      name: 'testing',
-      message: 'Would you like to generate simple tests?',
-      default: true
+      name: 'appName',
+      message: 'How would you like to name your application?',
+      default: this.arguments.length > 0 ? this.arguments[0] : 'meanp'
     }];
 
     this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
-
+      this.appName = props.appName;
       done();
     }.bind(this));
   },
 
   app: function () {
-    this.mkdir('app');
-    this.mkdir('app/templates');
-
-    this.copy('_package.json', 'package.json');
-    this.copy('_bower.json', 'bower.json');
-  },
-
-  projectfiles: function () {
-    this.copy('editorconfig', '.editorconfig');
-    this.copy('jshintrc', '.jshintrc');
+    // Creates project folder
+    this.mkdir(this.appName);
+    // Clone a given repository into a specific folder.
+    function puts(error, stdout, stderr) { sys.puts(stdout) }
+    exec("git clone git://github.com/MakingSense/meanp-seed.git " + this.appName, puts);
+    exec('cd ' + this.appName, puts);
   }
 });
 
-module.exports = MeanpModulesGenerator;
+module.exports = MeanpGenerator;

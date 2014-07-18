@@ -1,36 +1,41 @@
 {
-  "name": "generator-meanp-modules",
-  "version": "0.0.0",
-  "description": "Yeoman generator",
-  "license": "MIT",
-  "main": "app/index.js",
-  "repository": "juanasas/generator-meanp-modules",
-  "author": {
-    "name": "",
-    "email": "",
-    "url": "https://github.com/juanasas"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "scripts": {
-    "test": "mocha"
-  },
-  "files": [
-    "app"
-  ],
-  "keywords": [
-    "yeoman-generator"
-  ],
-  "dependencies": {
-    "yeoman-generator": "~0.16.0",
-    "chalk": "~0.4.0",
-    "yosay": "^0.1.0"
-  },
-  "devDependencies": {
-    "mocha": "*"
-  },
-  "peerDependencies": {
-    "yo": ">=1.0.0"
-  }
+    "name": "generator-meanp",
+    "version": "1.0.0",
+    "description": "Command line tools for the meanp-seed project.",
+    "license": "MIT",
+    "main": "app/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/MakingSense/mean-cli.git"
+    },
+    "author": {
+        "name": "MakingSense",
+        "email": "",
+        "url": "https://www.npmjs.org/package/meanp"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "files": [
+        "app"
+    ],
+    "keywords": [
+        "yeoman-generator"
+    ],
+    "dependencies": {
+        "yeoman-generator": "~0.16.0",
+        "chalk": "~0.4.0",
+        "yosay": "^0.1.0",
+        "nodegit": "~0.1.4"
+    },
+    "devDependencies": {
+        "mocha": "*"
+    },
+    "peerDependencies": {
+        "yo": ">=1.0.0"
+    },
+    "_id": "mean-cli@1.0.8"
 }
