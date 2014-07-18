@@ -1,6 +1,5 @@
 /*jshint latedef:false */
 var path = require('path');
-var util = require('util');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var scriptBase = require('../script-base');

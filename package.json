@@ -1,41 +1,50 @@
 {
-    "name": "generator-meanp",
-    "version": "2.0.2",
-    "description": "Command line tools for the meanp-seed project.",
-    "license": "MIT",
-    "main": "app/index.js",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/MakingSense/meanp-cli.git"
-    },
-    "author": {
-        "name": "MakingSense",
-        "email": "",
-        "url": "https://www.npmjs.org/package/meanp"
-    },
-    "engines": {
-        "node": ">=0.10.0"
-    },
-    "scripts": {
-        "test": "mocha"
-    },
-    "files": [
-        "app",
-        "modules"
-    ],
-    "keywords": [
-        "yeoman-generator"
-    ],
-    "dependencies": {
-        "yeoman-generator": "~0.16.0",
-        "chalk": "~0.4.0",
-        "yosay": "^0.1.0"
-    },
-    "devDependencies": {
-        "mocha": "*"
-    },
-    "peerDependencies": {
-        "yo": ">=1.0.0"
-    },
-    "_id": "mean-cli@1.0.8"
+  "name": "generator-meanp",
+  "version": "2.0.4",
+  "description": "Command line tools for the meanp-seed project.",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/MakingSense/meanp-cli.git"
+  },
+  "author": {
+    "name": "MakingSense",
+    "url": "https://www.npmjs.org/package/meanp"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "app",
+    "modules",
+    "script-base.js"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "~0.16.0",
+    "chalk": "~0.4.0",
+    "yosay": "^0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  },
+  "_id": "generator-meanp@2.0.3",
+  "readme": "MEANP-CLI\n================\n\nA simple command line tool for creating front-end modules on the meanp-seed project \n \n### Setup:\n```\nnpm install -g generator-meanp\n```\n\n### Commands:\n```yo meanp <name>```\nClones the meanp-seed project to a new directory with the name you enter.\n\n```yo meanp:modules <name>```\nCreates a new module on the current application //TODO: Ensure that we are located at the project",
+  "readmeFilename": "README.md",
+  "gitHead": "c3ccf53634b5ff6e0ef7cf421d70d9cd12a7cd8f",
+  "bugs": {
+    "url": "https://github.com/MakingSense/meanp-cli/issues"
+  },
+  "homepage": "https://github.com/MakingSense/meanp-cli",
+  "_shasum": "22c1b87b3c8169df63f7c2dbf35bceb32fa9fb96",
+  "_from": "generator-meanp@"
 }
