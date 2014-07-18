@@ -3,12 +3,12 @@
 /*
  * Defining the Package
  */
-var Module = require('meanio').Module;
+var Module = require('meanp').Module;
 
 var __class__ = new Module('__pkgName__');
 
 /*
- * All MEAN packages require registration
+ * All meap modules require registration
  * Dependency injection is used to define required modules
  */
 __class__.register(function(app, auth, database) {
