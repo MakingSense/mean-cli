@@ -1,12 +1,12 @@
 {
     "name": "generator-meanp",
-    "version": "2.0.0",
+    "version": "2.0.2",
     "description": "Command line tools for the meanp-seed project.",
     "license": "MIT",
     "main": "app/index.js",
     "repository": {
         "type": "git",
-        "url": "git://github.com/MakingSense/mean-cli.git"
+        "url": "git://github.com/MakingSense/meanp-cli.git"
     },
     "author": {
         "name": "MakingSense",
@@ -20,7 +20,8 @@
         "test": "mocha"
     },
     "files": [
-        "app"
+        "app",
+        "modules"
     ],
     "keywords": [
         "yeoman-generator"
