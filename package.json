@@ -1,6 +1,6 @@
 {
   "name": "generator-meanp",
-  "version": "2.0.4",
+  "version": "2.0.6",
   "description": "Command line tools for the meanp-seed project.",
   "license": "MIT",
   "main": "app/index.js",

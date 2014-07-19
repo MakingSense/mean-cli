@@ -19,9 +19,7 @@ var MeanpGenerator = yeoman.generators.Base.extend({
           bower: true,
           skipInstall: false,
           callback: function(){
-            setTimeout(function(){
-              exec("grunt " + meanp.appName + "/server", puts);
-            }, 5000);
+            exec("grunt server", puts);
           }
         });
       }
