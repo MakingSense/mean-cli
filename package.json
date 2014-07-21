@@ -1,6 +1,6 @@
 {
   "name": "generator-meanp",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Command line tools for the meanp-seed project.",
   "license": "MIT",
   "main": "app/index.js",
@@ -20,8 +20,7 @@
   },
   "files": [
     "app",
-    "modules",
-    "script-base.js"
+    "modules"
   ],
   "keywords": [
     "yeoman-generator"
