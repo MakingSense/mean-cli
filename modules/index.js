@@ -17,6 +17,7 @@ var ModuleGenerator = meanpGen.extend({
     var dirPath = '/templates';
     this.sourceRoot(path.join(__dirname, dirPath));
   },
+
   createModuleFiles: function () {
     var done = this.async();
     // Have Yeoman greet the user.
@@ -24,7 +25,7 @@ var ModuleGenerator = meanpGen.extend({
     var prompts = [{
       name: 'moduleName',
       message: 'How would you like to name your new module?',
-      default: this.attrs.name
+      default: this.attrs ? this.attrs.name : 'example'
     }];
     this.prompt(prompts, function (props) {
       this.moduleName = props.moduleName;
@@ -50,4 +51,5 @@ var ModuleGenerator = meanpGen.extend({
     //Generating js references TODO
   }
 });
+
 module.exports = ModuleGenerator;
