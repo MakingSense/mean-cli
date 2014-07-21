@@ -2,11 +2,11 @@
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
-var scriptBase = require('../script-base');
+var meanpGen = require('../app/index');
 
-var ModuleGenerator = scriptBase.extend({
+var ModuleGenerator = meanpGen.extend({
   constructor: function () {
-    scriptBase.apply(this, arguments);
+    meanpGen.apply(this, arguments);
     this.attrs = this.arguments.map(function (attr) {
       var parts = attr.split();
       return {
@@ -17,10 +17,9 @@ var ModuleGenerator = scriptBase.extend({
     var dirPath = '/templates';
     this.sourceRoot(path.join(__dirname, dirPath));
   },
-
   createModuleFiles: function () {
-  	var done = this.async();
-  	// Have Yeoman greet the user.
+    var done = this.async();
+    // Have Yeoman greet the user.
     this.log(yosay('Welcome to the meanp module generator!'));
     var prompts = [{
       name: 'moduleName',
@@ -35,21 +34,20 @@ var ModuleGenerator = scriptBase.extend({
   afterConfirm: function(){
     var moduleDir = './public/modules/' + this.moduleName;
     //Creating directories
-  	this.mkdir(moduleDir);
-  	this.mkdir(moduleDir + '/assets');
-  	this.mkdir(moduleDir + '/assets/css');
-  	this.mkdir(moduleDir + '/controllers');
-  	this.mkdir(moduleDir + '/services');
-  	this.mkdir(moduleDir + '/views');
-  	//Copying files
-  	this.copy('./assets/css/main.css', moduleDir + '/assets/css/' + this.moduleName + '.css');
-  	this.copy('./controllers/main.js', moduleDir + '/controllers/' + this.moduleName + '.js');
-  	this.copy('./services/factory.js', moduleDir + '/services/' + this.moduleName + '.js');
-  	this.copy('./views/main.html', moduleDir + '/views/' + this.moduleName + '.html');
-  	this.copy('package.json', moduleDir + '/package.json');
-  	this.copy('app.js', moduleDir + '/app.js');
-  	//Generating js references TODO
+    this.mkdir(moduleDir);
+    this.mkdir(moduleDir + '/assets');
+    this.mkdir(moduleDir + '/assets/css');
+    this.mkdir(moduleDir + '/controllers');
+    this.mkdir(moduleDir + '/services');
+    this.mkdir(moduleDir + '/views');
+    //Copying files
+    this.copy('./assets/css/main.css', moduleDir + '/assets/css/' + this.moduleName + '.css');
+    this.copy('./controllers/main.js', moduleDir + '/controllers/' + this.moduleName + '.js');
+    this.copy('./services/factory.js', moduleDir + '/services/' + this.moduleName + '.js');
+    this.copy('./views/main.html', moduleDir + '/views/' + this.moduleName + '.html');
+    this.copy('package.json', moduleDir + '/package.json');
+    this.copy('app.js', moduleDir + '/app.js');
+    //Generating js references TODO
   }
 });
-
 module.exports = ModuleGenerator;
