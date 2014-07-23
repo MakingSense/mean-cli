@@ -84,9 +84,10 @@ var ModuleGenerator = meanpGen.extend({
     //Back-End SetUp
     var hook   = '//===== meanp-cli hook =====//';
     var routesFile   = this.readFileAsString(base + '/api/config/routes.js');
+    var controller = "var "+this.moduleName+" = require('../controllers/" + this.moduleName + "');"
     var insert = "app.get('/" + this.moduleName + "', auth.ensureAuthenticated, " + this.moduleName + ".get);";
     if (routesFile.indexOf(insert) === -1) {
-      this.write(base + '/api/config/routes.js', routesFile.replace(hook, insert+'\n'+hook));
+      this.write(base + '/api/config/routes.js', routesFile.replace(hook, controller+'\n'+insert+'\n'+hook));
     }
     var modulesApp   = this.readFileAsString(base + '/public/modules/app.js');
     var insert = ".when('/" + this.moduleName + "', {templateUrl: 'modules/" + this.moduleName + "/views/index.html', controller: '" + this.moduleName + "Ctrl' })";
