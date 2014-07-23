@@ -39,22 +39,22 @@ var ModuleGenerator = meanpGen.extend({
     console.log(src)
     var path = base + '/public/modules/' + this.moduleName;
     //Directory of the destination
-    var directory = [ base + '/api', base + '/api/controllers', base + '/api/models', base + '/public', base + '/public/modules', path, path + '/controllers', path + '/services', path + '/assets', path + '/assets/css', path + '/views']
+    var directory = [ base + '/api', base + '/api/' + this.moduleName, base + '/public', base + '/api/'+this.moduleName+'/controllers', base + '/api/'+this.moduleName+'/models', base + '/api/'+this.moduleName+'/routes', base + '/public/modules', path, path + '/controllers', path + '/services', path + '/assets', path + '/assets/css', path + '/views']
     //Files of the template
     var files = [{
-      origin: src + '/api/controller.js',
+      origin: src + '/controller-back.js',
       dest: base + '/api/controllers/' + this.moduleName + '.js'
     },{
-      origin: src + '/controllers/main.js',
+      origin: src + '/controller-front.js',
       dest: path + '/controllers/' + this.moduleName + '.js'
     }, {
-      origin: src + '/services/factory.js',
+      origin: src + '/service.js',
       dest: path + '/services/' + this.moduleName + '.js'
     },{
-      origin: src + '/views/main.html',
+      origin: src + '/view.html',
       dest: path + '/views/index.html'
     },{
-      origin: src + '/assets/css/main.css',
+      origin: src + '/style.css',
       dest: path + '/assets/css/' + this.moduleName + '.css'
     },{
       origin: src + '/package.json',
@@ -81,14 +81,8 @@ var ModuleGenerator = meanpGen.extend({
       this.write(files[counter].dest, fileContent);
       console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
     };
-    //Back-End SetUp
+    //front-end reference setUp
     var hook   = '//===== meanp-cli hook =====//';
-    var routesFile   = this.readFileAsString(base + '/api/config/routes.js');
-    var controller = "var "+this.moduleName+" = require('../controllers/" + this.moduleName + "');"
-    var insert = "app.get('/" + this.moduleName + "', auth.ensureAuthenticated, " + this.moduleName + ".get);";
-    if (routesFile.indexOf(insert) === -1) {
-      this.write(base + '/api/config/routes.js', routesFile.replace(hook, controller+'\n'+insert+'\n'+hook));
-    }
     var modulesApp   = this.readFileAsString(base + '/public/modules/app.js');
     var insert = ".when('/" + this.moduleName + "', {templateUrl: 'modules/" + this.moduleName + "/views/index.html', controller: '" + this.moduleName + "Ctrl' })";
     if (modulesApp.indexOf(insert) === -1) {
