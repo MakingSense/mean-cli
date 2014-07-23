@@ -4,8 +4,10 @@ MEANP-CLI
 A simple command line tool for creating front-end modules on the meanp-seed project. Proud to be part of Making Sense.
 
 Screen casts highlithing the main two use cases
-(yo meanp)[http://screencast.com/t/fMgu8TjOh]
-(yo meanp:modules)[http://screencast.com/t/k1Dmfzx1R]
+
+<a href="http://screencast.com/t/fMgu8TjOh" >yo meanp</a>
+
+<a href="http://screencast.com/t/k1Dmfzx1R" >yo meanp:modules</a>
  
 ### Setup:
 ```
