@@ -1,10 +1,10 @@
 'use strict';
 
 /* Example Factory */
-angular.module('meanms.__pkgName__').factory('__class__', [
+angular.module('meanp').factory('__moduleName__', [
     function() {
         return {
-            name: '__pkgName__'
+            name: '__moduleName__'
         };
     }
 ]);

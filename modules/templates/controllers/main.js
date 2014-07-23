@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('meanms.__pkgName__').controller('__class__Ctrl', function ($scope) {
-    function($scope, Global, __class__) {
+angular.module('meanp').controller('__moduleName__Ctrl', function ($scope) {
+    function($scope, Global, __moduleName__) {
         $scope.global = Global;
-        $scope.package = {
-            name: '__pkgName__'
+        $scope.module = {
+            name: '__moduleName__'
         };
     }
 });

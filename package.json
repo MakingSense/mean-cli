@@ -1,6 +1,6 @@
 {
   "name": "generator-meanp",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Command line tools for the meanp-seed project.",
   "license": "MIT",
   "main": "app/index.js",
@@ -36,7 +36,7 @@
   "peerDependencies": {
     "yo": ">=1.0.0"
   },
-  "_id": "generator-meanp@2.0.4",
+  "_id": "generator-meanp@2.0.6",
   "readme": "MEANP-CLI\n================\n\nA simple command line tool for creating front-end modules on the meanp-seed project \n \n### Setup:\n```\nnpm install -g generator-meanp\n```\n\n### Commands:\n```yo meanp <name>```\nClones the meanp-seed project to a new directory with the name you enter.\n\n```yo meanp:modules <name>```\nCreates a new module on the current application //TODO: Ensure that we are located at the project",
   "readmeFilename": "README.md",
   "gitHead": "c3ccf53634b5ff6e0ef7cf421d70d9cd12a7cd8f",
@@ -44,6 +44,6 @@
     "url": "https://github.com/MakingSense/meanp-cli/issues"
   },
   "homepage": "https://github.com/MakingSense/meanp-cli",
-  "_shasum": "d2478c0152f351f80bf8992b088d92a655c6379b",
-  "_from": "generator-meanp@"
+  "_shasum": "d78c01dfd85c4a3948da77f1d19b4861e9f94323",
+  "_from": "generator-meanp@2.0.6"
 }
