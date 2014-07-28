@@ -3,5 +3,5 @@ node_js:
   - '0.10'
 before_install:
   - currentfolder=${PWD##*/}
-  - if [ "$currentfolder" != 'generator-meanp-modules' ]; then cd .. && eval "mv $currentfolder generator-meanp-modules" && cd generator-meanp-modules; fi
+  - if [ "$currentfolder" != 'generator-meanp' ]; then cd .. && eval "mv $currentfolder generator-meanp" && cd generator-meanp; fi
 

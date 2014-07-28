@@ -5,7 +5,7 @@ var yosay = require('yosay');
 var chalk = require('chalk');
 var meanpGen = require('../app/index');
 
-var ModuleGenerator = meanpGen.extend({
+var TodoGenerator = meanpGen.extend({
   constructor: function () {
     meanpGen.apply(this, arguments);
     this.attrs = this.arguments.map(function (attr) {
@@ -22,11 +22,11 @@ var ModuleGenerator = meanpGen.extend({
   createModuleFiles: function () {
     var done = this.async();
     // Have Yeoman greet the user.
-    this.log(yosay('Welcome to the meanp module generator!'));
+    this.log(yosay('This is the todo meanp module generator!'));
     var prompts = [{
       name: 'moduleName',
-      message: 'How would you like to name your new module?',
-      default: this.attrs ? this.attrs.name : 'example'
+      message: 'How would you like to name your new todo list?',
+      default: this.attrs ? this.attrs.name : 'todo'
     }];
     this.prompt(prompts, function (props) {
       this.moduleName = props.moduleName;
@@ -38,33 +38,21 @@ var ModuleGenerator = meanpGen.extend({
     var src = this.src._base;
     var path = base + '/public/modules/' + this.moduleName;
     //Directory of the destination
-    var directory = [ base + '/api', base + '/api/' + this.moduleName, base + '/api/' + this.moduleName + '/controllers', base + '/api/' + this.moduleName + '/models', base + '/api/' + this.moduleName + '/routes', base + '/public', base + '/public/modules', path, path + '/controllers', path + '/services', path + '/assets', path + '/assets/css', path + '/views']
+    var directory = [ base + '/public', base + '/public/modules', path + '/controllers', path + '/services', path + '/assets', path + '/assets/css', path + '/views']
     //Files of the template
     var files = [{
-      origin: src + '/api/controller.js',
-      dest: base + '/api/' + this.moduleName + '/controllers/' + this.moduleName +'.js'
-    },{
-      origin: src + '/api/routes.js',
-      dest: base + '/api/' + this.moduleName + '/routes/' + this.moduleName +'.js'
-    },{
-      origin: src + '/controllers/main.js',
+      origin: src + '/myTasksCtrl.js',
       dest: path + '/controllers/' + this.moduleName + '.js',
       inject: true
     }, {
-      origin: src + '/services/factory.js',
-      dest: path + '/services/' + this.moduleName + '.js'
-    },{
-      origin: src + '/views/main.html',
-      dest: path + '/views/index.html'
-    },{
-      origin: src + '/assets/css/main.css',
+      origin: src + '/Style.css',
       dest: path + '/assets/css/' + this.moduleName + '.css'
     },{
-      origin: src + '/package.json',
-      dest: path + '/package.json'
+      origin: src + '/myCSS.css',
+      dest: path + '/assets/css/myCSS.css'
     },{
-      origin: src + '/app.js',
-      dest: path + '/app.js'
+      origin: src + '/index.html',
+      dest: path + '/views/index.html'
     }];
     var baseArray = base.split('/');
     var counter = 0;
@@ -92,7 +80,7 @@ var ModuleGenerator = meanpGen.extend({
       }
       console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
     };
-    //Back-End SetUp
+    //front-end reference setUp
     var hook   = '//===== meanp-cli hook =====//';
     var modulesApp   = this.readFileAsString(base + '/public/modules/app.js');
     var insert = ".when('/" + this.moduleName + "', {templateUrl: 'modules/" + this.moduleName + "/views/index.html', controller: '" + this.moduleName + "Ctrl' })";
@@ -102,4 +90,4 @@ var ModuleGenerator = meanpGen.extend({
   }
 });
 
-module.exports = ModuleGenerator;
+module.exports = TodoGenerator;

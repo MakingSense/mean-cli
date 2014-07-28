@@ -1,0 +1,41 @@
+<div class="todo-meanp">
+    <ul class="nav nav-pills naviBar">
+        <li class="active"><a href="#">TODO (demo) __moduleName__</a>
+        </li>
+    </ul>
+
+    <div class="mainCenter" ng-controller="__moduleName__Ctrl">
+        <h1 class="listTitle">Tasks</h1>
+        <div class="sep">
+            <span class="numRemaining">{{remaining()}} task/s remaining of {{cont}}</span>
+            <span class="alertLbl-{{msgVisible}} success-{{styleAdded}}">{{msgAlert}}</span>
+            <button ng-click="delSelectedTasks()" class="btn btn-default btn-danger btDelete">DELETE
+                <span class="btDel">{{countDelete}}</span>
+            </button>
+
+        </div>
+        <ul class="unstyled">
+            <li ng-repeat="task in tasks" class="listStyle">
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                        <input type="checkbox"  ng-model="task.done">
+                      </span>
+                        <span type="text" class="form-control hecho-{{task.done}}">{{task.text}}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <form ng-submit="addTask()">
+            <div class="col-lg-6 total-width">
+                <div class="input-group input-group-lg">
+                    <input type="text" class="form-control empty-{{empty}}" placeholder="Add an item"
+                           ng-model="textNewTask" ng-change="verifyText()">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-primary" type="submit">Add</button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

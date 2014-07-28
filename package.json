@@ -20,7 +20,8 @@
   },
   "files": [
     "app",
-    "modules"
+    "modules",
+    "todo"
   ],
   "keywords": [
     "yeoman-generator"
