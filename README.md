@@ -20,3 +20,9 @@ Clones the meanp-seed project to a new directory with the name you enter.
 
 ```yo meanp:modules <name>```
 Creates a new module on the current application //TODO: Ensure that we are located at the project
+
+```yo meanp:todo <name>```
+Creates a new todo module on the current application, this generates a todo-list module.
+
+```yo meanp:blog <name>```
+Creates a new blog on the current application, this will generate a client-side blog module.
