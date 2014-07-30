@@ -3,6 +3,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
+var fs = require('fs');
 var meanpGen = require('../app/index');
 
 var ModuleGenerator = meanpGen.extend({
@@ -49,7 +50,8 @@ var ModuleGenerator = meanpGen.extend({
     },{
       origin: src + '/controllers/main.js',
       dest: path + '/controllers/' + this.moduleName + '.js',
-      inject: true
+      inject: true,
+      menu: true
     }, {
       origin: src + '/services/factory.js',
       dest: path + '/services/' + this.moduleName + '.js'
@@ -81,13 +83,20 @@ var ModuleGenerator = meanpGen.extend({
         fileContent = fileContent.replace(/__moduleName__/g, this.moduleName);
       }
       var indexOfFolder = files[counter].dest.indexOf(this.moduleName) + this.moduleName.length + 1;
-      this.write(files[counter].dest, fileContent);
+      fs.writeFileSync(files[counter].dest, fileContent);
       if(files[counter].inject){
         var htmlHook = '<!-- //===== meanp-cli hook =====// -->'
         var indexHtml = this.readFileAsString(base + '/public/index.html');
         var inserTag = "<script src='modules/" + this.moduleName + '/' + files[counter].dest.substr(indexOfFolder) + "'></script>";
         if (indexHtml.indexOf(inserTag) === -1) {
-          this.write(base + '/public/index.html', indexHtml.replace(htmlHook, inserTag+'\n'+htmlHook));
+          fs.writeFileSync(base + '/public/index.html', indexHtml.replace(htmlHook, inserTag+'\n'+htmlHook));
+        }
+        if(files[counter].menu){
+          var menuFile = require(base + '/api/config/menus');
+          menuFile[this.moduleName] = menuFile[this.moduleName] ? menuFile[this.moduleName] : {};
+          menuFile[this.moduleName].name = this.moduleName;
+          menuFile[this.moduleName].path = '/' + this.moduleName;
+          fs.writeFileSync(base + '/api/config/menus.json', JSON.stringify(menuFile));
         }
       }
       console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
@@ -97,7 +106,7 @@ var ModuleGenerator = meanpGen.extend({
     var modulesApp   = this.readFileAsString(base + '/public/modules/app.js');
     var insert = ".when('/" + this.moduleName + "', {templateUrl: 'modules/" + this.moduleName + "/views/index.html', controller: '" + this.moduleName + "Ctrl' })";
     if (modulesApp.indexOf(insert) === -1) {
-      this.write(base + '/public/modules/app.js', modulesApp.replace(hook, insert+'\n'+hook));
+      fs.writeFileSync(base + '/public/modules/app.js', modulesApp.replace(hook, insert+'\n'+hook));
     }
   }
 });

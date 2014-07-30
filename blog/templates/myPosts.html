@@ -1,0 +1,13 @@
+<div ng-controller="myPostsCtrl">
+    <h2>My posts</h2> 
+    <a href="#/addpost" type="button" class="btn btn-primary btn-Post" ng-click="unmarkAll()"> Write new post </a>
+    <p class="user-post">{{ currentUser.username }}</p>
+    <div ng-repeat="post in posts">
+        <hr>
+        <a class="post-title" href="#/posts/{{post.id}}">
+            <h3><span class="badge">{{post.id}}</span>  {{post.title}}</h3>
+            <p class="preview">{{post.text}} </p>
+        </a>
+        <hr>
+    </div> 
+</div>

@@ -1,0 +1,110 @@
+body {
+    background-color: #ffffff !important;
+    color: #333333;
+    width: 100%;
+    height: 100%;
+
+}
+
+textarea.tePost {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 2%;
+}
+
+input.inPost {
+    font-size: 30px;
+    height: 40px;
+    line-height: 39px;
+    width: 100%;
+    margin-bottom: 2%;
+}
+
+input.inPost::-webkit-input-placeholder { font-size: 20px; }
+input.inPost::-moz-placeholder { font-size: 20px; } /* firefox 19+ */
+input.inPost:-ms-input-placeholder { font-size: 20px; } /* ie */
+input.inPost:-moz-placeholder { font-size: 20px; }
+
+.btn-Post{
+    float: right;
+    margin-top: 4%;
+    margin-left: 5px;
+}
+
+p.preview {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
+}
+
+.left-side {     
+    background-color: white;
+    background-image: url('../img/bg-home.jpg');
+    background-size: auto 100% !important;
+    background-repeat: no-repeat !important;
+    background-position: left top !important;
+    height: 700px;
+}
+
+.right-side {
+    display:relative;
+    padding-right: 8% !important;
+    padding-left: 4% !important;
+    height: 700px;
+    overflow: auto;
+}
+
+.btn-cont-left {float: left;}
+.btn-cont-right {float: right;}
+.btn-cont {
+    height: 35px;
+    line-height: 30px;
+    border: 1px solid;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+    border-left: none;
+    border-right: none;
+}
+
+.navbar {margin-bottom: 0px!important;}
+
+p.user-post {color: #b3b3b1; margin-top: -1%;}
+
+.badge {vertical-align: middle !important;}
+
+a.post-title {color: #333333;}
+
+a.post-title:hover {color: #428bca; text-decoration:none;}
+
+div.deleteAlert {margin-top: 4%;}
+
+.btn-no {min-width: 90px;}
+
+.bottom-side {
+    position: relative;
+    min-height: 1px;
+    float: left;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    padding-right: 40px;
+    padding-left: 40px;
+    background-color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
