@@ -9,6 +9,10 @@ Screen casts highlithing the main two use cases
 
 <a href="http://screencast.com/t/k1Dmfzx1R" >yo meanp:modules</a>
  
+ <a href="http://screencast.com/t/nBOxhCwejOh" >yo meanp:todo</a>
+ 
+ <a href="http://screencast.com/t/kK9n6I85EW" >yo meanp:blog</a>
+ 
 ### Setup:
 ```
 npm install -g generator-meanp
