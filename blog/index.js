@@ -4,11 +4,11 @@ var fs = require('fs');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
-var meanpGen = require('../app/index');
+var meanGen = require('../app/index');
 
-var TodoGenerator = meanpGen.extend({
+var TodoGenerator = meanGen.extend({
   constructor: function () {
-    meanpGen.apply(this, arguments);
+    meanGen.apply(this, arguments);
     this.attrs = this.arguments.map(function (attr) {
       var parts = attr.split();
       return {
@@ -23,7 +23,7 @@ var TodoGenerator = meanpGen.extend({
   createModuleFiles: function () {
     var done = this.async();
     // Have Yeoman greet the user.
-    this.log(yosay('This is the todo meanp blog generator!'));
+    this.log(yosay('This is the todo mean blog generator!'));
     var prompts = [{
       name: 'moduleName',
       message: 'How would you like to name your new blog?',
@@ -108,13 +108,13 @@ var TodoGenerator = meanpGen.extend({
       var indexOfFolder = files[counter].dest.indexOf(this.moduleName) + this.moduleName.length + 1;
       this.write(files[counter].dest, fileContent);
       if(files[counter].inject){
-        var htmlHook = '<!-- //===== meanp-cli hook =====// -->'
+        var htmlHook = '<!-- //===== mean-cli hook =====// -->'
         var indexHtml = this.readFileAsString(base + '/public/index.html');
         var inserTag = "<script src='modules/" + this.moduleName + '/' + files[counter].dest.substr(indexOfFolder) + "'></script>";
         if (indexHtml.indexOf(inserTag) === -1) {
           fs.writeFileSync(base + '/public/index.html', indexHtml.replace(htmlHook, inserTag+'\n'+htmlHook));
         }
-        var hook   = '//===== meanp-cli hook =====//';
+        var hook   = '//===== mean-cli hook =====//';
         var modulesApp   = this.readFileAsString(base + '/public/modules/app.js');
         var insert = ".when('" + files[counter].path + "', {templateUrl: 'modules/" + this.moduleName + "/views/" + files[counter].html +".html', controller: '" + files[counter].html + "Ctrl' })";
         if (modulesApp.indexOf(insert) === -1) {

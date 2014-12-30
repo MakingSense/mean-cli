@@ -4,11 +4,11 @@ var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
 var fs = require('fs');
-var meanpGen = require('../app/index');
+var meanGen = require('../app/index');
 
-var ModuleGenerator = meanpGen.extend({
+var ModuleGenerator = meanGen.extend({
   constructor: function () {
-    meanpGen.apply(this, arguments);
+    meanGen.apply(this, arguments);
     this.attrs = this.arguments.map(function (attr) {
       var parts = attr.split();
       return {
@@ -23,7 +23,7 @@ var ModuleGenerator = meanpGen.extend({
   createModuleFiles: function () {
     var done = this.async();
     // Have Yeoman greet the user.
-    this.log(yosay('Welcome to the meanp module generator!'));
+    this.log(yosay('Welcome to the mean module generator!'));
     var prompts = [{
       name: 'moduleName',
       message: 'How would you like to name your new module?',
@@ -85,7 +85,7 @@ var ModuleGenerator = meanpGen.extend({
       var indexOfFolder = files[counter].dest.indexOf(this.moduleName) + this.moduleName.length + 1;
       fs.writeFileSync(files[counter].dest, fileContent);
       if(files[counter].inject){
-        var htmlHook = '<!-- //===== meanp-cli hook =====// -->'
+        var htmlHook = '<!-- //===== mean-cli hook =====// -->'
         var indexHtml = this.readFileAsString(base + '/public/index.html');
         var inserTag = "<script src='modules/" + this.moduleName + '/' + files[counter].dest.substr(indexOfFolder) + "'></script>";
         if (indexHtml.indexOf(inserTag) === -1) {
@@ -102,7 +102,7 @@ var ModuleGenerator = meanpGen.extend({
       console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
     };
     //Back-End SetUp
-    var hook   = '//===== meanp-cli hook =====//';
+    var hook   = '//===== mean-cli hook =====//';
     var modulesApp   = this.readFileAsString(base + '/public/modules/app.js');
     var insert = ".when('/" + this.moduleName + "', {templateUrl: 'modules/" + this.moduleName + "/views/index.html', controller: '" + this.moduleName + "Ctrl' })";
     if (modulesApp.indexOf(insert) === -1) {

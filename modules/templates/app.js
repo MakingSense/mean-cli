@@ -3,7 +3,7 @@
 /*
  * Defining the Module
  */
-var Module = require('meanp').Module;
+var Module = require('mean').Module;
 
 var __moduleName__ = new Module('__moduleName__');
 

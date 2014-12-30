@@ -1,4 +1,4 @@
-angular.module('meanp').controller('editPostCtrl', function($scope,$rootScope, $routeParams, $location) {
+angular.module('mean').controller('editPostCtrl', function($scope,$rootScope, $routeParams, $location) {
     //get the element by id
     if(!$rootScope.posts){
         $rootScope.posts = [];

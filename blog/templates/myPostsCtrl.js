@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('meanp').controller('myPostsCtrl', function($scope, $rootScope) {
+angular.module('mean').controller('myPostsCtrl', function($scope, $rootScope) {
     //get all elements
     if(!$rootScope.posts){
     $rootScope.posts = [{

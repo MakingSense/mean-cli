@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('meanp').controller('postDetailsCtrl', function($scope,$rootScope, $routeParams,$location) {
+angular.module('mean').controller('postDetailsCtrl', function($scope,$rootScope, $routeParams,$location) {
     //Call to getById() method in blogService
     if(!$rootScope.posts){
         $rootScope.posts = [];

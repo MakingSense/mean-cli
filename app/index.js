@@ -5,12 +5,12 @@ var yosay = require('yosay');
 var chalk = require('chalk');
 var sys = require('sys')
 var exec = require('child_process').exec;
-var meanp;
+var mean;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
-var MeanpGenerator = yeoman.generators.Base.extend({
+var MeanGenerator = yeoman.generators.Base.extend({
   init: function () {
-    meanp = this;
+    mean = this;
     this.pkg = require('../package.json');
     this.on('end', function () {
       if (!this.options['skip-install']) {
@@ -27,27 +27,27 @@ var MeanpGenerator = yeoman.generators.Base.extend({
   },
   askFor: function () {
     var done = this.async();
-    this.log(yosay('Welcome to the meanp app generator!'));
+    this.log(yosay('Welcome to the mean app generator!'));
     var prompts = [{
       name: 'appName',
       message: 'How would you like to name your application?',
-      default: this.arguments.length > 0 ? this.arguments[0] : 'meanp'
+      default: this.arguments.length > 0 ? this.arguments[0] : 'mean'
     }];
 
     this.prompt(prompts, function (props) {
-      if(!props.appName) { props.appName = 'meanp' };
+      if(!props.appName) { props.appName = 'mean' };
       this.appName = props.appName;
-      exec("git clone git://github.com/MakingSense/meanp-seed.git " + props.appName, function(err, stdout, stderr){
+      exec("git clone git://github.com/MakingSense/mean-seed.git " + props.appName, function(err, stdout, stderr){
         if(err){ 
           console.log('The folder already exists and is not empty');
           return;
         };
         console.log(stderr);
-        meanp.destinationRoot(meanp.appName);
+        mean.destinationRoot(mean.appName);
         done();
       });
     }.bind(this));
   }
 });
 
-module.exports = MeanpGenerator;
+module.exports = MeanGenerator;

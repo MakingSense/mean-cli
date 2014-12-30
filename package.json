@@ -1,16 +1,16 @@
 {
-  "name": "generator-meanp",
-  "version": "2.1.2",
-  "description": "Command line tools for the meanp-seed project.",
+  "name": "generator-msmean",
+  "version": "0.1.0",
+  "description": "Command line tools for the mean-seed project.",
   "license": "MIT",
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/MakingSense/meanp-cli.git"
+    "url": "git://github.com/MakingSense/mean-cli.git"
   },
   "author": {
     "name": "MakingSense",
-    "url": "https://www.npmjs.org/package/meanp"
+    "url": "https://www.npmjs.org/package/msmean"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -38,14 +38,14 @@
   "peerDependencies": {
     "yo": ">=1.0.0"
   },
-  "_id": "generator-meanp@2.0.6",
-  "readme": "MEANP-CLI\n================\n\nA simple command line tool for creating front-end modules on the meanp-seed project \n \n### Setup:\n```\nnpm install -g generator-meanp\n```\n\n### Commands:\n```yo meanp <name>```\nClones the meanp-seed project to a new directory with the name you enter.\n\n```yo meanp:modules <name>```\nCreates a new module on the current application //TODO: Ensure that we are located at the project",
+  "_id": "generator-mean@0.1.0",
+  "readme": "mean-CLI\n================\n\nA simple command line tool for creating front-end modules on the mean-seed project \n \n### Setup:\n```\nnpm install -g generator-mean\n```\n\n### Commands:\n```yo mean <name>```\nClones the mean-seed project to a new directory with the name you enter.\n\n```yo mean:modules <name>```\nCreates a new module on the current application //TODO: Ensure that we are located at the project",
   "readmeFilename": "README.md",
   "gitHead": "c3ccf53634b5ff6e0ef7cf421d70d9cd12a7cd8f",
   "bugs": {
-    "url": "https://github.com/MakingSense/meanp-cli/issues"
+    "url": "https://github.com/MakingSense/mean-cli/issues"
   },
-  "homepage": "https://github.com/MakingSense/meanp-cli",
+  "homepage": "https://github.com/MakingSense/mean-cli",
   "_shasum": "d78c01dfd85c4a3948da77f1d19b4861e9f94323",
-  "_from": "generator-meanp@2.0.6"
+  "_from": "generator-meanp@0.1.0"
 }

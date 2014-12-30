@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('meanp').controller('newPostCtrl', function($scope, $rootScope, $location) {
+angular.module('mean').controller('newPostCtrl', function($scope, $rootScope, $location) {
     // Call to blogService.create()
 
     $scope.addPost = function() {   
