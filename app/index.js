@@ -37,8 +37,9 @@ var MeanpGenerator = yeoman.generators.Base.extend({
     this.prompt(prompts, function (props) {
       if(!props.appName) { props.appName = 'meanp' };
       this.appName = props.appName;
-      exec("git clone git://github.com/MakingSense/meanp-seed.git " + props.appName, function(err, stdout, stderr){
-        if(err){ 
+      // exec("git clone git://github.com/MakingSense/meanp-seed.git " + props.appName, function(err, stdout, stderr){
+      exec("git clone -b payment-integration --single-branch git://github.com/MakingSense/meanp-seed.git " + props.appName, function(err, stdout, stderr){
+        if(err){
           console.log('The folder already exists and is not empty');
           return;
         };
