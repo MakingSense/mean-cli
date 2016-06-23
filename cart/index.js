@@ -1,5 +1,5 @@
 /*jshint latedef:false */
-var path = require('path');
+var _path = require('path');
 var fs = require('fs');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
@@ -17,7 +17,7 @@ var CartGenerator = meanpGen.extend({
             };
         })[0];
         var dirPath = '/templates';
-        this.sourceRoot(path.join(__dirname, dirPath));
+        this.sourceRoot(_path.join(__dirname, dirPath));
     },
 
     createModuleFiles: function () {
@@ -37,9 +37,18 @@ var CartGenerator = meanpGen.extend({
     afterConfirm: function(){
         var base = this.dest._base;
         var src = this.src._base;
-        var path = base + '/public/modules/' + this.moduleName;
+        var path = base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + this.moduleName;
+        var backendPath = base + _path.sep + 'api' + _path.sep;
         //Directory of the destination
-        var directory = [ base + '/public', base + '/public/modules', path + '/controllers', path + '/services', path + '/assets', path + '/assets/css', path + '/views']
+        var directory = [
+            base + _path.sep + 'public',
+            base + _path.sep + 'public' + _path.sep + 'modules',
+            path + _path.sep + 'controllers',
+            path + _path.sep + 'services',
+            path + _path.sep + 'assets',
+            path + _path.sep + 'assets' + _path.sep + 'css',
+            path + _path.sep + 'views'
+        ];
         //Files of the template
         var files = [{
             origin: src + '/cart.html',
@@ -62,7 +71,12 @@ var CartGenerator = meanpGen.extend({
         },{
             origin: src + '/paymentService.js',
             dest: path + '/services/paymentService.js',
-            inject: true
+            inject: false
+        },{
+            origin: src + '/payments.js',
+            dest: backendPath + '/base/controllers/payments.js',
+            inject: false,
+            backend: true
         }];
         var baseArray = base.split('/');
         var counter = 0;
@@ -82,24 +96,52 @@ var CartGenerator = meanpGen.extend({
             this.write(files[counter].dest, fileContent);
             if(files[counter].inject){
                 var htmlHook = '<!-- //===== meanp-cli hook =====// -->'
-                var indexHtml = this.readFileAsString(base + '/public/index.html');
+                var indexHtml = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'index.html');
                 var inserTag = "<script src='modules/" + this.moduleName + '/' + files[counter].dest.substr(indexOfFolder) + "'></script>";
                 if (indexHtml.indexOf(inserTag) === -1) {
-                    fs.writeFileSync(base + '/public/index.html', indexHtml.replace(htmlHook, inserTag+'\n'+htmlHook));
+                    fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'index.html', indexHtml.replace(htmlHook, inserTag+'\n  ' + htmlHook));
                 }
                 var hook   = '//===== meanp-cli hook =====//';
-                var modulesApp   = this.readFileAsString(base + '/public/modules/app.js');
+                var modulesApp   = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js');
                 var insert = ".when('" + files[counter].path + "', {templateUrl: 'modules/" + this.moduleName + "/views/" + files[counter].html +".html', controller: '" + files[counter].html + "Ctrl' })";
                 if (modulesApp.indexOf(insert) === -1) {
-                    fs.writeFileSync(base + '/public/modules/app.js', modulesApp.replace(hook, insert+'\n'+hook));
+                    fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js', modulesApp.replace(hook, insert + '\n       ' + hook));
                 }
-                if(files[counter].menu){
-                    var menuFile = require(base + '/api/config/menus');
-                    menuFile[this.moduleName] = menuFile[this.moduleName] ? menuFile[this.moduleName] : {};
-                    menuFile[this.moduleName].name = this.moduleName;
-                    menuFile[this.moduleName].path = files[counter].path;
-                    fs.writeFileSync(base + '/api/config/menus.json', JSON.stringify(menuFile));
+            }
+
+            if(files[counter].backend) {
+                var apiBase   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js');
+                var apiBootstrap   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js');
+                var apiBootstrapData = {
+                    hook: '/*===== cart hook =====*/',
+                    insert: "simpleDI.define('base/paymentsController', 'base/controllers/payments');"
+                } 
+                
+                // Hooks values
+                var hooksData = [
+                    {
+                        hook  : '/*===== cart hook #1 =====*/',
+                        insert: ",'base/paymentsController'"
+                    },
+                    {
+                        hook  : '/*===== cart hook #2 =====*/',
+                        insert: ", paymentsController"
+                    },
+                    {
+                        hook  : '/*===== cart hook #3 =====*/',
+                        insert: "app.post('/api/payments/stripe/', authenticationMiddleware.verifySignature, authenticationMiddleware.verifySecret, paymentsController.stripe);"
+                    }
+                ];
+                
+                // Hook Replacing
+                counter = 0;
+                for(counter in hooksData){
+                    var hData = hooksData[counter];
+                    apiBase = apiBase.replace(hData.hook, hData.insert);
                 }
+
+                fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js', apiBase);
+                fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js', apiBootstrap.replace(apiBootstrapData.hook, apiBootstrapData.insert));
 
             }
             console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
