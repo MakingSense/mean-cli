@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row">
+        <h2>Summary</h2>
+        <ngcart-cart template-url="/modules/base/views/partials/cart.html"></ngcart-cart>
+    </div>
+
+    <div class="row" ng-if="isCartEmpty">
+        <h2>Checkout</h2>
+        <div class="col-sm-6 col-md-3" >
+            <ngcart-checkout service="paypal"
+                             settings="settings"
+                             template-url="/modules/base/views/partials/checkout.html">Checkout</ngcart-checkout>
+        </div>
+        <div class="col-sm-6 col-md-3" >
+            <a href="#/stripe" class="btn btn-primary">Stripe</a>
+        </div>
+
+    </div>
+</div>
