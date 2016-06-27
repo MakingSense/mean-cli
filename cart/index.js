@@ -81,7 +81,7 @@ var CartGenerator = meanpGen.extend({
         },{
             origin: src + '/paymentService.js',
             dest: path + '/services/paymentService.js',
-            inject: false
+            inject: true
         },{
             origin: src + '/payments.js',
             dest: backendPath + '/base/controllers/payments.js',
