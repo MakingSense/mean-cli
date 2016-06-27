@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mean')
-    .controller('ProductsCtrl', function ($scope) {
+    .controller('productsCtrl', function ($scope) {
         $scope.products = [
             {
                 productName: 'Product #1',

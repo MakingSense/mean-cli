@@ -70,13 +70,13 @@ var CartGenerator = meanpGen.extend({
             origin: src + '/cartCtrl.js',
             dest: path + '/controllers/cartCtrl.js',
             inject: true,
-            html: 'CartCtrl',
+            html: 'cart',
             path: '/cart'
         },{
             origin: src + '/productsCtrl.js',
             dest: path + '/controllers/productsCtrl.js',
             inject: true,
-            html: 'ProductsCtrl',
+            html: 'products',
             path: '/products'
         },{
             origin: src + '/paymentService.js',
