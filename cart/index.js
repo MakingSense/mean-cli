@@ -18,6 +18,16 @@ var CartGenerator = meanpGen.extend({
         })[0];
         var dirPath = '/templates';
         this.sourceRoot(_path.join(__dirname, dirPath));
+
+        this.on('end', function () {
+            if (!this.options['skip-install']) {
+                this.installDependencies({
+                    npm: true,
+                    bower: true,
+                    skipInstall: false
+                });
+            }
+        });
     },
 
     createModuleFiles: function () {
@@ -60,13 +70,13 @@ var CartGenerator = meanpGen.extend({
             origin: src + '/cartCtrl.js',
             dest: path + '/controllers/cartCtrl.js',
             inject: true,
-            html: 'cart',
+            html: 'CartCtrl',
             path: '/cart'
         },{
             origin: src + '/productsCtrl.js',
             dest: path + '/controllers/productsCtrl.js',
             inject: true,
-            html: 'products',
+            html: 'ProductsCtrl',
             path: '/products'
         },{
             origin: src + '/paymentService.js',
@@ -112,11 +122,22 @@ var CartGenerator = meanpGen.extend({
             if(files[counter].backend) {
                 var apiBase   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js');
                 var apiBootstrap   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js');
+                var packageFile = this.readFileAsString(base + _path.sep + 'package.json');
+                var bowerFile = this.readFileAsString(base + _path.sep + 'bower.json');
+
+                packageFile = JSON.parse(packageFile);
+                bowerFile = JSON.parse(bowerFile);
+
+                packageFile.devDependencies.stripe = "^4.7.0";
+                bowerFile.dependencies['auth0-angular'] = "^4.2.2";
+                bowerFile.dependencies['ngCart'] = "ngcart#^1.0.0";
+                bowerFile.dependencies['angular-payments'] = "*";
+
                 var apiBootstrapData = {
                     hook: '/*===== cart hook =====*/',
                     insert: "simpleDI.define('base/paymentsController', 'base/controllers/payments');"
-                } 
-                
+                }
+
                 // Hooks values
                 var hooksData = [
                     {
@@ -132,7 +153,7 @@ var CartGenerator = meanpGen.extend({
                         insert: "app.post('/api/payments/stripe/', authenticationMiddleware.verifySignature, authenticationMiddleware.verifySecret, paymentsController.stripe);"
                     }
                 ];
-                
+
                 // Hook Replacing
                 counter = 0;
                 for(counter in hooksData){
@@ -142,6 +163,9 @@ var CartGenerator = meanpGen.extend({
 
                 fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js', apiBase);
                 fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js', apiBootstrap.replace(apiBootstrapData.hook, apiBootstrapData.insert));
+
+                fs.writeFileSync(base + _path.sep + 'package.json', JSON.stringify(packageFile));
+                fs.writeFileSync(base + _path.sep + 'bower.json', JSON.stringify(bowerFile));
 
             }
             console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
