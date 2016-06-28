@@ -80,6 +80,9 @@ var CartGenerator = meanpGen.extend({
             origin: src + '/ng-checkout.html',
             dest: path + '/views/partials/ng-checkout.html'
         },{
+            origin: src + '/ng-summary.html',
+            dest: path + '/views/partials/ng-summary.html'
+        },{
             origin: src + '/cartCtrl.js',
             dest: path + '/controllers/cartCtrl.js',
             inject: true,
@@ -210,6 +213,10 @@ var CartGenerator = meanpGen.extend({
         var modulesApp   = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js');
         fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js', modulesApp.replace(depHook, depInsert));
 
+        var navBarHtml = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'base' + _path.sep + 'views' + _path.sep + 'partials' + _path.sep + 'navbar.html');
+        var cartHook = "<!-- //===== meanp-cli cart hook =====// -->";
+        var cartInsert = "<li><a href='#/cart' name='top'><ngcart-summary template-url='/modules/cart/views/partials/ng-summary.html' ></ngcart-summary></a></li>";
+        fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'base' + _path.sep + 'views' + _path.sep + 'partials' + _path.sep + 'navbar.html', navBarHtml.replace(cartHook, cartInsert));
     }
 });
 
