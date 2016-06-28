@@ -197,16 +197,18 @@ var CartGenerator = meanpGen.extend({
             console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
         }
 
+        var indexHtml = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'index.html');
         var cartIndexDep = "<script src='lib/ngCart/dist/ngCart.js'></script> <script src='lib/angular-payments/lib/angular-payments.min.js'></script>";
-        fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'index.html', indexHtml.replace(htmlHook, cartIndexDep + '\n  ' + htmlHook));
+        indexHtml = indexHtml.replace(htmlHook, cartIndexDep + '\n  ' + htmlHook);
 
         var stripeUrl = "<script type='text/javascript' src='https://js.stripe.com/v2/'></script>" + '\n ' + " <script>Stripe.setPublishableKey('Stripe Secret Key');</script>";
         var stripeHook = "<!-- //===== meanp-cli stripe hook =====// -->";
         fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'index.html', indexHtml.replace(stripeHook, stripeUrl));
 
         var depHook = "'auth0'";
-        var depInsert = "," + '\n ' + "'ngCart', 'angularPayments'";
-        fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js', indexHtml.replace(depHook, depInsert));
+        var depInsert = "'auth0'," + '\n ' + "'ngCart', 'angularPayments'";
+        var modulesApp   = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js');
+        fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js', modulesApp.replace(depHook, depInsert));
 
     }
 });
