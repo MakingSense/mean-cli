@@ -11,7 +11,7 @@ module.exports = simpleDI.inject(['stripe'], function (stripe) {
         stripe: function (req, res) {
             if(!req.body.id || !req.body.amount || !req.body.currency) {
                 return res.json(404, {
-                    message: 'Field not found. Token id, amoung and currency are required.'
+                    message: 'Field not found. Token id, amount and currency are required.'
                 });
             }
 

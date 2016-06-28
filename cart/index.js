@@ -18,6 +18,16 @@ var CartGenerator = meanpGen.extend({
         })[0];
         var dirPath = '/templates';
         this.sourceRoot(_path.join(__dirname, dirPath));
+
+        this.on('end', function () {
+            if (!this.options['skip-install']) {
+                this.installDependencies({
+                    npm: true,
+                    bower: true,
+                    skipInstall: false
+                });
+            }
+        });
     },
 
     createModuleFiles: function () {
@@ -47,7 +57,8 @@ var CartGenerator = meanpGen.extend({
             path + _path.sep + 'services',
             path + _path.sep + 'assets',
             path + _path.sep + 'assets' + _path.sep + 'css',
-            path + _path.sep + 'views'
+            path + _path.sep + 'views',
+            path + _path.sep + 'views' + _path.sep + 'partials'
         ];
         //Files of the template
         var files = [{
@@ -57,21 +68,46 @@ var CartGenerator = meanpGen.extend({
             origin: src + '/products.html',
             dest: path + '/views/products.html'
         },{
+            origin: src + '/stripe.html',
+            dest: path + '/views/stripe.html'
+        },{
+            origin: src + '/ng-addtocart.html',
+            dest: path + '/views/partials/ng-addtocart.html'
+        },{
+            origin: src + '/ng-cart.html',
+            dest: path + '/views/partials/ng-cart.html'
+        },{
+            origin: src + '/ng-checkout.html',
+            dest: path + '/views/partials/ng-checkout.html'
+        },{
+            origin: src + '/ng-summary.html',
+            dest: path + '/views/partials/ng-summary.html'
+        },{
             origin: src + '/cartCtrl.js',
             dest: path + '/controllers/cartCtrl.js',
             inject: true,
+            service: false,
             html: 'cart',
             path: '/cart'
         },{
             origin: src + '/productsCtrl.js',
             dest: path + '/controllers/productsCtrl.js',
             inject: true,
+            service: false,
             html: 'products',
             path: '/products'
         },{
+            origin: src + '/stripeCtrl.js',
+            dest: path + '/controllers/stripeCtrl.js',
+            inject: true,
+            service: false,
+            html: 'stripe',
+            path: '/stripe'
+        },{
             origin: src + '/paymentService.js',
             dest: path + '/services/paymentService.js',
-            inject: false
+            inject: true,
+            service: true
         },{
             origin: src + '/payments.js',
             dest: backendPath + '/base/controllers/payments.js',
@@ -101,22 +137,36 @@ var CartGenerator = meanpGen.extend({
                 if (indexHtml.indexOf(inserTag) === -1) {
                     fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'index.html', indexHtml.replace(htmlHook, inserTag+'\n  ' + htmlHook));
                 }
-                var hook   = '//===== meanp-cli hook =====//';
-                var modulesApp   = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js');
-                var insert = ".when('" + files[counter].path + "', {templateUrl: 'modules/" + this.moduleName + "/views/" + files[counter].html +".html', controller: '" + files[counter].html + "Ctrl' })";
-                if (modulesApp.indexOf(insert) === -1) {
-                    fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js', modulesApp.replace(hook, insert + '\n       ' + hook));
+
+                if(!files[counter].service){
+                    var hook   = '//===== meanp-cli hook =====//';
+                    var modulesApp   = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js');
+                    var insert = ".when('" + files[counter].path + "', {templateUrl: 'modules/" + this.moduleName + "/views/" + files[counter].html +".html', controller: '" + files[counter].html + "Ctrl' })";
+                    if (modulesApp.indexOf(insert) === -1) {
+                        fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js', modulesApp.replace(hook, insert + '\n       ' + hook));
+                    }   
                 }
             }
 
             if(files[counter].backend) {
                 var apiBase   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js');
                 var apiBootstrap   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js');
+                var packageFile = this.readFileAsString(base + _path.sep + 'package.json');
+                var bowerFile = this.readFileAsString(base + _path.sep + 'bower.json');
+
+                packageFile = JSON.parse(packageFile);
+                bowerFile = JSON.parse(bowerFile);
+
+                packageFile.devDependencies.stripe = "^4.7.0";
+                bowerFile.dependencies['auth0-angular'] = "^4.2.2";
+                bowerFile.dependencies['ngCart'] = "ngcart#^1.0.0";
+                bowerFile.dependencies['angular-payments'] = "*";
+
                 var apiBootstrapData = {
                     hook: '/*===== cart hook =====*/',
                     insert: "simpleDI.define('base/paymentsController', 'base/controllers/payments');"
-                } 
-                
+                }
+
                 // Hooks values
                 var hooksData = [
                     {
@@ -132,7 +182,7 @@ var CartGenerator = meanpGen.extend({
                         insert: "app.post('/api/payments/stripe/', authenticationMiddleware.verifySignature, authenticationMiddleware.verifySecret, paymentsController.stripe);"
                     }
                 ];
-                
+
                 // Hook Replacing
                 counter = 0;
                 for(counter in hooksData){
@@ -143,9 +193,30 @@ var CartGenerator = meanpGen.extend({
                 fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js', apiBase);
                 fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js', apiBootstrap.replace(apiBootstrapData.hook, apiBootstrapData.insert));
 
+                fs.writeFileSync(base + _path.sep + 'package.json', JSON.stringify(packageFile));
+                fs.writeFileSync(base + _path.sep + 'bower.json', JSON.stringify(bowerFile));
+
             }
             console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
-        };
+        }
+
+        var indexHtml = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'index.html');
+        var cartIndexDep = "<script src='lib/ngCart/dist/ngCart.js'></script> <script src='lib/angular-payments/lib/angular-payments.min.js'></script>";
+        indexHtml = indexHtml.replace(htmlHook, cartIndexDep + '\n  ' + htmlHook);
+
+        var stripeUrl = "<script type='text/javascript' src='https://js.stripe.com/v2/'></script>" + '\n ' + " <script>Stripe.setPublishableKey('Stripe Secret Key');</script>";
+        var stripeHook = "<!-- //===== meanp-cli stripe hook =====// -->";
+        fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'index.html', indexHtml.replace(stripeHook, stripeUrl));
+
+        var depHook = "'auth0'";
+        var depInsert = "'auth0'," + '\n ' + "'ngCart', 'angularPayments'";
+        var modulesApp   = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js');
+        fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js', modulesApp.replace(depHook, depInsert));
+
+        var navBarHtml = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'base' + _path.sep + 'views' + _path.sep + 'partials' + _path.sep + 'navbar.html');
+        var cartHook = "<!-- //===== meanp-cli cart hook =====// -->";
+        var cartInsert = "<li><a href='#/cart' name='top'><ngcart-summary template-url='/modules/cart/views/partials/ng-summary.html' ></ngcart-summary></a></li>";
+        fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'base' + _path.sep + 'views' + _path.sep + 'partials' + _path.sep + 'navbar.html', navBarHtml.replace(cartHook, cartInsert));
     }
 });
 

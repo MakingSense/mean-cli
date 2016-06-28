@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mean')
-    .controller('cartCtrl', function ($scope, paymentService, $location, ngCart) {
+    .controller('stripeCtrl', function ($scope, paymentService, $location, ngCart) {
         $scope.total = ngCart.totalCost();
         $scope.isCartEmpty = ngCart.getItems();
 
