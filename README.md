@@ -37,7 +37,7 @@ Creates a new blog on the current application, this will generate a client-side 
 Creates a new cart module on the current application, this will generate also a payment module.
 
 ## Cart setup:
-1 - Save your credentials on the .env file
-2 - Go to the index.html file and do a quick find for 'Stripe Secret Key', replace this with your Stripe Publishable Key
-3 - Now you're good to go. Run: grunt and enjoy
+1. - Save your credentials on the .env file
+2. - Go to the index.html file and do a quick find for 'Stripe Secret Key', replace this with your Stripe Publishable Key
+3. - Now you're good to go. Run: grunt and enjoy
 
