@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="span4 offset4">
-            <div class="row">
+            <div class="row" ng-hide="paymentRequest.success">
                 <div class="span4">
                     <h3>Shut up and take my money!</h3>
                 </div>
@@ -46,6 +46,12 @@
                     </div>
                 </form>
 
+            </div>
+            <div class="row" ng-if="paymentRequest.success">
+                <div class="alert alert-success" role="alert">Payment successfully processed. <a href="#/">Go home?</a></div>
+            </div>
+            <div class="row" ng-if="paymentRequest.error">
+                <div class="alert alert-danger" role="alert">{{ paymentRequest.message }}</div>
             </div>
         </div>
     </div>
