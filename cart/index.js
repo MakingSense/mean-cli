@@ -111,8 +111,7 @@ var CartGenerator = meanpGen.extend({
         },{
             origin: src + '/payments.js',
             dest: backendPath + '/base/controllers/payments.js',
-            inject: false,
-            backend: true
+            inject: false
         }];
         var baseArray = base.split('/');
         var counter = 0;
@@ -147,61 +146,66 @@ var CartGenerator = meanpGen.extend({
                     }   
                 }
             }
-
-            if(files[counter].backend) {
-                var apiBase   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js');
-                var apiBootstrap   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js');
-                var packageFile = this.readFileAsString(base + _path.sep + 'package.json');
-                var bowerFile = this.readFileAsString(base + _path.sep + 'bower.json');
-
-                packageFile = JSON.parse(packageFile);
-                bowerFile = JSON.parse(bowerFile);
-
-                packageFile.devDependencies.stripe = "^4.7.0";
-                bowerFile.dependencies['auth0-angular'] = "^4.2.2";
-                bowerFile.dependencies['ngCart'] = "ngcart#^1.0.0";
-                bowerFile.dependencies['angular-payments'] = "*";
-
-                var apiBootstrapData = {
-                    hook: '/*===== cart hook =====*/',
-                    insert: "simpleDI.define('base/paymentsController', 'base/controllers/payments');"
-                }
-
-                // Hooks values
-                var hooksData = [
-                    {
-                        hook  : '/*===== cart hook #1 =====*/',
-                        insert: ",'base/paymentsController'"
-                    },
-                    {
-                        hook  : '/*===== cart hook #2 =====*/',
-                        insert: ", paymentsController"
-                    },
-                    {
-                        hook  : '/*===== cart hook #3 =====*/',
-                        insert: "app.post('/api/payments/stripe/', authenticationMiddleware.verifySignature, authenticationMiddleware.verifySecret, paymentsController.stripe);"
-                    }
-                ];
-
-                // Hook Replacing
-                counter = 0;
-                for(counter in hooksData){
-                    var hData = hooksData[counter];
-                    apiBase = apiBase.replace(hData.hook, hData.insert);
-                }
-
-                fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js', apiBase);
-                fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js', apiBootstrap.replace(apiBootstrapData.hook, apiBootstrapData.insert));
-
-                fs.writeFileSync(base + _path.sep + 'package.json', JSON.stringify(packageFile));
-                fs.writeFileSync(base + _path.sep + 'bower.json', JSON.stringify(bowerFile));
-
-            }
             console.log(chalk.green(files[counter].dest.substr(indexOfFolder) + ' file was successfully created'));
         }
 
+        var apiBase   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js');
+        var apiBootstrap   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js');
+        var menuFile   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'templates' + _path.sep + 'menus.json');
+        var packageFile = this.readFileAsString(base + _path.sep + 'package.json');
+        var bowerFile = this.readFileAsString(base + _path.sep + 'bower.json');
+
+        packageFile = JSON.parse(packageFile);
+        bowerFile = JSON.parse(bowerFile);
+        menuFile = JSON.parse(menuFile);
+
+        packageFile.devDependencies.stripe = "^4.7.0";
+        bowerFile.dependencies['auth0-angular'] = "^4.2.2";
+        bowerFile.dependencies['ngCart'] = "ngcart#^1.0.0";
+        bowerFile.dependencies['angular-payments'] = "*";
+        menuFile.base.push({
+            "name": "Products",
+            "path": "/products",
+            "subMenu": null
+        });
+
+        var apiBootstrapData = {
+            hook: '/*===== cart hook =====*/',
+            insert: "simpleDI.define('base/paymentsController', 'base/controllers/payments');"
+        };
+
+        // Hooks values
+        var hooksData = [
+            {
+                hook  : '/*===== cart hook #1 =====*/',
+                insert: ",'base/paymentsController'"
+            },
+            {
+                hook  : '/*===== cart hook #2 =====*/',
+                insert: ", paymentsController"
+            },
+            {
+                hook  : '/*===== cart hook #3 =====*/',
+                insert: "app.post('/api/payments/stripe/', authenticationMiddleware.verifySignature, authenticationMiddleware.verifySecret, paymentsController.stripe);"
+            }
+        ];
+
+        // Hook Replacing
+        counter = 0;
+        for(counter in hooksData){
+            var hData = hooksData[counter];
+            apiBase = apiBase.replace(hData.hook, hData.insert);
+        }
+
+        fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js', apiBase);
+        fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js', apiBootstrap.replace(apiBootstrapData.hook, apiBootstrapData.insert));
+
+        fs.writeFileSync(base + _path.sep + 'package.json', JSON.stringify(packageFile));
+        fs.writeFileSync(base + _path.sep + 'bower.json', JSON.stringify(bowerFile));
+        fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'templates' + _path.sep + 'menus.json', JSON.stringify(menuFile));
+
         var indexHtml = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'index.html');
-        var cartIndexDep = "<script src='lib/ngCart/dist/ngCart.js'></script> <script src='lib/angular-payments/lib/angular-payments.min.js'></script>";
+        var cartIndexDep = "<script src='lib/ngCart/dist/ngCart.js'></script><script src='lib/angular-payments/lib/angular-payments.min.js'></script>";
         indexHtml = indexHtml.replace(htmlHook, cartIndexDep + '\n  ' + htmlHook);
 
         var stripeUrl = "<script type='text/javascript' src='https://js.stripe.com/v2/'></script>" + '\n ' + " <script>Stripe.setPublishableKey('Stripe Secret Key');</script>";

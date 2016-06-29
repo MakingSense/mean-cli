@@ -12,6 +12,8 @@ Screen casts highlithing the main two use cases
  <a href="http://screencast.com/t/nBOxhCwejOh" >yo meanp:todo</a>
  
  <a href="http://screencast.com/t/kK9n6I85EW" >yo meanp:blog</a>
+
+ <a href="http://screencast.com/t/wyX9OiBC" >yo meanp:cart</a>
  
 ### Setup:
 ```
@@ -30,3 +32,12 @@ Creates a new todo module on the current application, this generates a todo-list
 
 ```yo meanp:blog <name>```
 Creates a new blog on the current application, this will generate a client-side blog module.
+
+```yo meanp:cart <name>```
+Creates a new cart module on the current application, this will generate also a payment module.
+
+## Cart setup:
+1 - Save your credentials on the .env file
+2 - Go to the index.html file and do a quick find for 'Stripe Secret Key', replace this with your Stripe Publishable Key
+3 - Now you're good to go. Run: grunt and enjoy
+

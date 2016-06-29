@@ -4,6 +4,11 @@ angular.module('mean')
     .controller('stripeCtrl', function ($scope, paymentService, $location, ngCart) {
         $scope.total = ngCart.totalCost();
         $scope.isCartEmpty = ngCart.getItems();
+        $scope.paymentRequest = {
+            success: false,
+            error: false,
+            message: ''
+        };
 
         $scope.settings = {
             paypal: {
@@ -15,8 +20,12 @@ angular.module('mean')
         };
 
         $scope.handleStripe = function(status, response){
+            $scope.paymentRequest.success = false;
+            $scope.paymentRequest.error = false;
+
             if(response.error) {
-                console.log(response.error);
+                $scope.paymentRequest.error = true;
+                $scope.paymentRequest.message = response.error.message;
             } else {
 
                 var data = {
@@ -29,9 +38,10 @@ angular.module('mean')
                 paymentService.stripe(data)
                     .then(function(){
                         ngCart.empty();
-                        $location.path('#/');
+                        $scope.paymentRequest.success = true;
                     }, function(err) {
-                        console.log(err);
+                        $scope.paymentRequest.error = true;
+                        $scope.paymentRequest.message = err.message;
                     });
             }
         }
