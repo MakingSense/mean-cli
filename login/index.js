@@ -6,7 +6,7 @@ var yosay = require('yosay');
 var chalk = require('chalk');
 var meanpGen = require('../app/index');
 
-var CartGenerator = meanpGen.extend({
+var LoginGenerator = meanpGen.extend({
     constructor: function () {
         meanpGen.apply(this, arguments);
         this.attrs = this.arguments.map(function (attr) {
@@ -55,4 +55,4 @@ var CartGenerator = meanpGen.extend({
     }
 });
 
-module.exports = CartGenerator;
+module.exports = LoginGenerator;
