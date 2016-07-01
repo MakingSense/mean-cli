@@ -58,7 +58,7 @@ var LoginAuth0Generator = meanpGen.extend({
         var modulesInsert2 = "var nextPath = $location.path();var nextRoute = $route.routes[nextPath];" + '\n  '  + "  if (nextRoute && nextRoute.requireAuth && !authService.isAuthed()) {$location.path('/login');}";
         var modulesInsert3 = "configService.get().then(function() {auth.init({domain: $localStorage.auth0Domain,clientID: $localStorage.auth0ClientId,loginUrl: '/login'});}, function(err) {});";
         var modulesInsert4 = "return authService.isAuthed() !== null && authService.isAuthed() !== false";
-        var loginInsertHtml = "<li><a href='#'>Welcome, {{ getCurrentUser().username }}</a></li><li><a href=' ng-click='logout()'>Logout</a></li>";
+        var loginInsertHtml = "<li><a href='#'>Welcome, {{ getCurrentUser().username }}</a></li><li><a href='#' ng-click='logout()'>Logout</a></li>";
 
         bowerFile.dependencies['auth0-angular'] = "^4.2.2";
         // Insert the content
