@@ -44,7 +44,7 @@ var LoginJwtGenerator = meanpGen.extend({
             dest: path + '/controllers/login.js'
         },{
             origin: src + '/auth.js',
-            dest: path + '/controllers/auth.js'
+            dest: base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'controllers' + _path.sep + 'auth.js'
         },{
             origin: src + '/authService.js',
             dest: path + '/services/authService.js'
