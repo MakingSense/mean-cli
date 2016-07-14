@@ -43,6 +43,9 @@ var LoginJwtGenerator = meanpGen.extend({
             origin: src + '/login.js',
             dest: path + '/controllers/login.js'
         },{
+            origin: src + '/auth.js',
+            dest: path + '/controllers/auth.js'
+        },{
             origin: src + '/authService.js',
             dest: path + '/services/authService.js'
         },{
@@ -66,6 +69,7 @@ var LoginJwtGenerator = meanpGen.extend({
         var modulesApp   = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js');
         var navBarHtml = this.readFileAsString(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'base' + _path.sep + 'views' + _path.sep + 'partials' + _path.sep + 'navbar.html');
         var apiAuthCtrl = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'middlewares' + _path.sep + 'authentication.js');
+        var apiBootstrap   = this.readFileAsString(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js');
         var packageFile = this.readFileAsString(base + _path.sep + 'package.json');
         packageFile = JSON.parse(packageFile);
 
@@ -79,6 +83,10 @@ var LoginJwtGenerator = meanpGen.extend({
         var modulesHook3 = "return true;";
         var apiHook = "/*===== login hook =====*/";
         var loginHook = "<!-- //===== meanp-cli login hook2 =====// -->";
+        var loginAuthHook1 = "/*===== login hook auth #1 =====*/";
+        var loginAuthHook2 = "/*===== login hook auth #2 =====*/";
+        var loginAuthHook3 = "/*===== login hook auth #3 =====*/";
+        var loginAuthHook4 = "/*===== login hook auth #4 =====*/";
 
 
         // Values to insert
@@ -88,6 +96,11 @@ var LoginJwtGenerator = meanpGen.extend({
         var modulesInsert2 = "var nextPath = $location.path();var nextRoute = $route.routes[nextPath];" + '\n  '  + "  if (nextRoute && nextRoute.requireAuth && !authService.isAuthed()) {$location.path('/login');}";
         var modulesInsert3 = "return authService.isAuthed() !== null && authService.isAuthed() !== false;";
         var loginInsertHtml = "<li><a href='#'>Welcome, {{ getCurrentUser().username }}</a></li><li><a href='#/login' ng-click='logout()'>Logout</a></li>";
+
+        var loginAuthInsert1 = "'base/authController',";
+        var loginAuthInsert2 = "authController, ";
+        var loginAuthInsert3 = "app.post('/auth/', authorizationMiddleware.getAuthorizationFn('login', 'create'),  authController.authenticate);";
+        var loginAuthInsert4 = "simpleDI.define('base/authController', 'base/controllers/auth');";
 
         var insert1 = ", 'app/config'";
         var insert2 = ", appConfig";
@@ -100,6 +113,9 @@ var LoginJwtGenerator = meanpGen.extend({
         apiAuthCtrl = apiAuthCtrl.replace(hook3, insert3);
         fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'middlewares' + _path.sep + 'authentication.js', apiAuthCtrl.replace(hook4, insert4));
 
+        apiBase = apiBase.replace(loginAuthHook1, loginAuthInsert1);
+        apiBase = apiBase.replace(loginAuthHook2, loginAuthInsert2);
+        apiBase = apiBase.replace(loginAuthHook3, loginAuthInsert3);
         fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'base' + _path.sep + 'routes' + _path.sep + 'base.js', apiBase.replace(apiHook, loginInsert));
 
         fs.writeFileSync(base + _path.sep + 'package.json', JSON.stringify(packageFile));
@@ -109,6 +125,8 @@ var LoginJwtGenerator = meanpGen.extend({
         fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'app.js', modulesApp.replace(modulesHook3, modulesInsert3));
 
         fs.writeFileSync(base + _path.sep + 'public' + _path.sep + 'modules' + _path.sep + 'base' + _path.sep + 'views' + _path.sep + 'partials' + _path.sep + 'navbar.html', navBarHtml.replace(loginHook, loginInsertHtml));
+
+        fs.writeFileSync(base + _path.sep + 'api' + _path.sep + 'config' + _path.sep + 'bootstrap.js', apiBootstrap.replace(loginAuthHook4, loginAuthInsert4));
     }
 });
 
